@@ -5,10 +5,11 @@ import sqlite from 'better-sqlite3';
 const [ sqlFile ] = process.argv.slice(2);
 
 if (!sqlFile) {
-  console.error('Please provide an SQL file name as an argument');
+  console.error('You have to provide an SQL file name as an argument');
   process.exit(1);
 }
 
+try {
 const sqlFilePath = path.resolve(`./cs50-queries/${sqlFile}`);
 const dbFilePath = path.resolve('./data/movies.db');
 
@@ -20,3 +21,8 @@ const movies = db.prepare(query);
 const results = movies.all();
 
 console.log(results);
+
+} catch (error) {
+    console.error('Error:', error.message);
+    process.exit(1);
+}
