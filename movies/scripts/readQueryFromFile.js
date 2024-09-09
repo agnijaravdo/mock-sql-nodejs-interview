@@ -1,6 +1,10 @@
 import fs from 'node:fs';
-import path from 'node:path';
 import sqlite from 'better-sqlite3';
+import { fileURLToPath } from 'node:url';
+import path, { dirname } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const [ sqlFile ] = process.argv.slice(2);
 
@@ -10,8 +14,10 @@ if (!sqlFile) {
 }
 
 try {
-const sqlFilePath = path.resolve(`./cs50-queries/${sqlFile}`);
-const dbFilePath = path.resolve('./data/movies.db');
+  const baseDir = path.resolve(__dirname, '../');
+
+  const sqlFilePath = path.resolve(baseDir, `cs50-queries/${sqlFile}`);
+  const dbFilePath = path.resolve(baseDir, 'data/movies.db');
 
 const query = fs.readFileSync(sqlFilePath, { encoding: 'utf-8' });
 
