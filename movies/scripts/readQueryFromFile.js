@@ -16,7 +16,7 @@ if (!sqlFile) {
 try {
   const baseDir = path.resolve(__dirname, '../');
 
-  const sqlFilePath = path.resolve(baseDir, `cs50-queries/${sqlFile}`);
+  const sqlFilePath = path.resolve(baseDir, `${sqlFile}`);
   const dbFilePath = path.resolve(baseDir, 'data/movies.db');
 
 const query = fs.readFileSync(sqlFilePath, { encoding: 'utf-8' });
