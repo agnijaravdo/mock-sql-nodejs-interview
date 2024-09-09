@@ -2,8 +2,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sqlite from 'better-sqlite3';
 
-const sqlFilePath = path.resolve('./12.sql');
-const dbFilePath = path.resolve('./movies.db');
+const [ sqlFile ] = process.argv.slice(2);
+
+if (!sqlFile) {
+  console.error('Please provide an SQL file name as an argument');
+  process.exit(1);
+}
+
+const sqlFilePath = path.resolve(`./cs50-queries/${sqlFile}`);
+const dbFilePath = path.resolve('./data/movies.db');
 
 const query = fs.readFileSync(sqlFilePath, { encoding: 'utf-8' });
 

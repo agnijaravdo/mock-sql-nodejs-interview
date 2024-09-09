@@ -1,7 +1,7 @@
 import path from 'node:path';
 import sqlite from 'better-sqlite3';
 
-const dbFilePath = path.resolve('./movies.db');
+const dbFilePath = path.resolve('./data/movies.db');
 
 const db = sqlite(dbFilePath);
 
