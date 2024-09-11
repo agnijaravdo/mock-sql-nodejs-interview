@@ -5,24 +5,24 @@
 
 // Run the script from the terminal using the following command: node [pathToFile].js
 
-import sqlite from 'better-sqlite3';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'node:url';
-import path, { dirname } from 'node:path';
+import sqlite from "better-sqlite3";
+import dotenv from "dotenv";
+import { fileURLToPath } from "node:url";
+import path, { dirname } from "node:path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
 try {
-  const dbFilePath = path.resolve(__dirname, '../../data/movies.db');
+  const dbFilePath = path.resolve(__dirname, "../../data/movies.db");
 
   const db = sqlite(dbFilePath);
 
   const favoriteDirector = process.env.FAVORITE_DIRECTOR;
   if (!favoriteDirector) {
-    throw new Error('FAVORITE_DIRECTOR is not defined in .env file');
+    throw new Error("FAVORITE_DIRECTOR is not defined in .env file");
   }
 
   const query = db.prepare(`
@@ -38,8 +38,7 @@ try {
   const results = query.all(favoriteDirector);
 
   console.log(results);
-
 } catch (error) {
-  console.error('Error:', error.message);
+  console.error("Error:", error.message);
   process.exit(1);
 }

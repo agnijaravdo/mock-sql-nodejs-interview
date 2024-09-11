@@ -3,16 +3,15 @@
 // If a rating exceeds 7, increase the vote count by 100 for that movie.
 // Write a Node.js script to execute this query, ensuring that the entire operation is done in a transaction.
 
-import sqlite from 'better-sqlite3';
-import path from 'node:path';
+import sqlite from "better-sqlite3";
+import path from "node:path";
 
-const dbFilePath = path.resolve('./data/movies.db');
+const dbFilePath = path.resolve("./data/movies.db");
 const db = sqlite(dbFilePath);
 
 try {
-    db.transaction(() => {
-
-        const query = `
+  db.transaction(() => {
+    const query = `
             SELECT
                 movies.title,
                 people.name AS director,
@@ -28,12 +27,12 @@ try {
                 AND (people.name = 'Quentin Tarantino' OR people.name = 'Steven Spielberg');
         `;
 
-        const movies = db.prepare(query);
-        const moviesResult = movies.all();
+    const movies = db.prepare(query);
+    const moviesResult = movies.all();
 
-        console.log('Movies:', moviesResult);
+    console.log("Movies:", moviesResult);
 
-        const updateQuery = `
+    const updateQuery = `
             UPDATE ratings
             SET votes = votes + 100
             WHERE movie_id IN (
@@ -48,11 +47,10 @@ try {
             );
         `;
 
-        db.exec(updateQuery);
-
-    })();
-    console.log('Transaction completed successfully');
+    db.exec(updateQuery);
+  })();
+  console.log("Transaction completed successfully");
 } catch (error) {
-    console.error('Transaction failed:', error.message);
-    process.exit(1);
+  console.error("Transaction failed:", error.message);
+  process.exit(1);
 }

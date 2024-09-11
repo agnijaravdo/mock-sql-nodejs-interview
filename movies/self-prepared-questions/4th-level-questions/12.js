@@ -2,28 +2,32 @@
 // If the column already exists, drop and add it again.
 // Ensure this operation runs within a transaction.
 
-import sqlite from 'better-sqlite3';
-import path from 'node:path';
+import sqlite from "better-sqlite3";
+import path from "node:path";
 
-const dbFilePath = path.resolve('./data/movies.db');
+const dbFilePath = path.resolve("./data/movies.db");
 const db = sqlite(dbFilePath);
 
-const columnExists = db.prepare(`
+const columnExists = db
+  .prepare(
+    `
     SELECT 1
     FROM pragma_table_info('movies')
     WHERE name = 'archived';
-`).get();
+`,
+  )
+  .get();
 
 try {
-    db.transaction(() => {
-        if (columnExists) {
-            db.exec('ALTER TABLE movies DROP COLUMN archived;');
-        }
+  db.transaction(() => {
+    if (columnExists) {
+      db.exec("ALTER TABLE movies DROP COLUMN archived;");
+    }
 
-        db.exec('ALTER TABLE movies ADD COLUMN archived INTEGER DEFAULT 0;');
-    })();
+    db.exec("ALTER TABLE movies ADD COLUMN archived INTEGER DEFAULT 0;");
+  })();
 
-    console.log('Migration completed successfully');
+  console.log("Migration completed successfully");
 } catch (error) {
-    console.error('Migration failed:', error.message);
+  console.error("Migration failed:", error.message);
 }
